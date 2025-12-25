@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Clock
 {
-    public partial class Form1 : Form
+    public partial class Form : System.Windows.Forms.Form
     {
-        public Form1()
+        public Form()
         {
             InitializeComponent();
         }
@@ -38,7 +38,7 @@ namespace Clock
                 labelTime.Text += "\n";
                 labelTime.Text += DateTime.Now.DayOfWeek;
             }
-            notifyIcon1.Text = labelTime.Text;
+            notifyIcon.Text = labelTime.Text;
         }
 
         private void btnHideControls_Click(object sender, EventArgs e)
