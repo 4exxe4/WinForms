@@ -12,12 +12,18 @@ namespace Clock
 {
     public partial class Form : System.Windows.Forms.Form
     {
+        ColorDialog foregroundColorDialog;
+        ColorDialog backgroundColorDialog;
         public Form()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = new Point(Screen.PrimaryScreen.Bounds.Width - this.Width, 50);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             SetVisibility(false);
+            foregroundColorDialog = new ColorDialog();
+            backgroundColorDialog = new ColorDialog();
         }
         void SetVisibility(bool visible)
         {
@@ -98,6 +104,18 @@ namespace Clock
         private void tsmiQuit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void tsmiForegroundColor_Click(object sender, EventArgs e)
+        {
+            foregroundColorDialog.ShowDialog();
+            labelTime.ForeColor = foregroundColorDialog.Color;
+        }
+
+        private void tsmiBackgroundColor_Click(object sender, EventArgs e)
+        {
+            backgroundColorDialog.ShowDialog();
+            labelTime.BackColor = backgroundColorDialog.Color;
         }
     }
 }
