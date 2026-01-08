@@ -60,6 +60,7 @@ namespace Clock
             writer.WriteLine(labelTime.ForeColor.ToArgb());
 
             writer.WriteLine(fontDialog.FIlename);
+            writer.WriteLine(labelTime.Font.Size);
 
             writer.Close();
 
@@ -85,7 +86,7 @@ namespace Clock
                 labelTime.BackColor = backgroundColorDialog.Color = Color.FromArgb(Convert.ToInt32(reader.ReadLine()));
                 labelTime.ForeColor = foregroundColorDialog.Color = Color.FromArgb(Convert.ToInt32(reader.ReadLine()));
 
-                fontDialog = new FontDialog(reader.ReadLine());
+                fontDialog = new FontDialog(reader.ReadLine(), reader.ReadLine());
                 labelTime.Font = fontDialog.Font;
 
                 reader.Close();
