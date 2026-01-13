@@ -17,6 +17,7 @@ namespace Clock
         FontDialog fontDialog;
         ColorDialog foregroundColorDialog;
         ColorDialog backgroundColorDialog;
+        AlarmsForm alarms;
         public MainForm()
         {
             InitializeComponent();
@@ -28,8 +29,8 @@ namespace Clock
             fontDialog = new FontDialog();
             foregroundColorDialog = new ColorDialog();
             backgroundColorDialog = new ColorDialog();
-
-            //LoadSettings();
+            alarms = new AlarmsForm();
+            LoadSettings();
         }
         void SetVisibility(bool visible)
         {
@@ -64,7 +65,7 @@ namespace Clock
 
             writer.Close();
 
-            System.Diagnostics.Process.Start("notepad", "Settings.ini");
+            //System.Diagnostics.Process.Start("notepad", "Settings.ini");
         }
         void LoadSettings()
         {
@@ -76,7 +77,6 @@ namespace Clock
                 this.Location = new Point(Convert.ToInt32(reader.ReadLine()), Convert.ToInt32(reader.ReadLine()));
 
                 this.TopMost = tsmiTopmost.Checked = bool.Parse(reader.ReadLine());
-                tsmiTopmost.Checked = bool.Parse(reader.ReadLine());
                 tsmiShowControls.Checked = bool.Parse(reader.ReadLine());
                 tsmiShowConsole.Checked = bool.Parse(reader.ReadLine());
                 tsmiShowDate.Checked = bool.Parse(reader.ReadLine());
@@ -203,6 +203,11 @@ namespace Clock
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveSettings();
+        }
+
+        private void tsmiAlarms_Click(object sender, EventArgs e)
+        {
+            alarms.ShowDialog();
         }
     }
 }
