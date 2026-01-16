@@ -20,6 +20,7 @@ namespace Clock
         ColorDialog foregroundColorDialog;
         ColorDialog backgroundColorDialog;
         AlarmsForm alarms;
+        Alarm alarm;
         public MainForm()
         {
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace Clock
             foregroundColorDialog = new ColorDialog();
             backgroundColorDialog = new ColorDialog();
             alarms = new AlarmsForm();
+            alarm = null;
             LoadSettings();
         }
         void SetVisibility(bool visible)
@@ -100,18 +102,29 @@ namespace Clock
         }
         private void timer_Tick(object sender, EventArgs e)
         {
-            labelTime.Text = DateTime.Now.ToString("hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
-            if(cbShowDate.Checked)
-            {
-                labelTime.Text += "\n";
-                labelTime.Text += DateTime.Now.ToString("yyyy.MM.dd");
-            }
-            if(cbShowWeekDay.Checked)
-            {
-                labelTime.Text += "\n";
-                labelTime.Text += DateTime.Now.DayOfWeek;
-            }
+            labelTime.Text = DateTime.Now.ToString
+                (
+                "hh:mm:ss tt",
+                System.Globalization.CultureInfo.InvariantCulture
+                );
+            if (cbShowDate.Checked)
+                labelTime.Text += $"\n{DateTime.Now.ToString("yyyy.MM.dd")}";
+            if (cbShowWeekDay.Checked)
+                labelTime.Text += $"\n{DateTime.Now.DayOfWeek}";
+            if (
+                alarm != null
+                && alarm.Time.Hours == DateTime.Now.Hour
+                && alarm.Time.Minutes == DateTime.Now.Minute
+                && alarm.Time.Seconds == DateTime.Now.Second
+                )
+                MessageBox.Show(alarm.ToString());
+            if(DateTime.Now.Second %5 == 0)alarm = FindNextAlarm();
             notifyIcon.Text = labelTime.Text;
+        }
+        Alarm FindNextAlarm()
+        {
+            Alarm[] actualAlarms = alarms.List.Items.Cast<Alarm>().Where(a => a.Time > DateTime.Now.TimeOfDay).ToArray();
+            return actualAlarms.Min();
         }
 
         private void btnHideControls_Click(object sender, EventArgs e)
