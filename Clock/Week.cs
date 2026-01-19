@@ -26,6 +26,12 @@ namespace Clock
             }
             //return clb;
         }
+        public bool Contains (byte day)
+        {
+            if (day == 0) day = 7;
+            day--;
+            return (days & (1 << day)) != 0;
+        }
         public override string ToString()
         {
             string days = "";
@@ -34,7 +40,7 @@ namespace Clock
                 byte day = (byte)(1 << i);
                 if ((this.days & day) != 0) days += NAMES[i];
             }
-            return base.ToString();
+            return days;
             /*
 			-----------------------------------------
 			~  NOT - побитовое отрицание (Инверсия - это унарная операция, при которой единицы заменяются нулями, а нули единицами);
